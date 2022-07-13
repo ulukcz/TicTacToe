@@ -13,12 +13,12 @@ public class GameRunner {
             else if(newGame.equals("y")) {
                 Field newGameField = new Field();
                 GameLogic gameLogic = new GameLogic();
-                char[][] tictactoe = new char[3][3];
-                newGameField.newFIeld(tictactoe);
+                char[][] tictactoe = new char[3][3];                        // Создаем новый массив для новой игры
+                newGameField.newFIeld(tictactoe);                           // Заполняем его элементами "-"
                 System.out.println("'x' or 'o'?");
                 char xoroChar = '-';
                 char xoroBot = '-';
-                while (xoroChar == '-') {
+                while (xoroChar == '-') {                                   // Узнаем, кто играет за крестик или нолик
                     String xoro = input.nextLine();
                     if (xoro.equals("x") || xoro.equals("o")) {
                         xoroChar = xoro.charAt(0);
@@ -27,35 +27,28 @@ public class GameRunner {
                     } else
                         System.out.println("Please type 'x' or 'o'!");
                 }
-                while (!gameLogic.isWinGame(tictactoe)) {
-                    if (xoroChar == 'x') {
+                while (!gameLogic.isWinGame(tictactoe)) {                   // Играем до тех пор, пока кто-то не выиграет
+                    if (xoroChar == 'x') {                                  // Логика игры, если первым ходит игрок
                         newGameField.printField(tictactoe);
-                        boolean rightPosition;
-                        do {
-                            System.out.println("Row position ?");
-                            int raw = input.nextInt();
-                            System.out.println("Column position ?");
-                            int col = input.nextInt();
-                            rightPosition = newGameField.addElementField(tictactoe, raw, col, xoroChar);
-                        } while (!rightPosition);
+                        newGameField.gamerAddPosition(input, xoroChar, tictactoe);
                         if (gameLogic.isWinGame(tictactoe)) {
                             newGameField.printField(tictactoe);
                             System.out.println("Congratulation! You win! You  winning with '" + xoroChar + "'");
                             continue endgame;
                         }
-                        if(newGameField.isDraw(tictactoe)) {
+                        if(newGameField.isDraw(tictactoe)) {                // Если ничья, то заканчиваем игру
                             newGameField.printField(tictactoe);
                             System.out.println("This is Draw!");
                             continue endgame;
                         }
-                        newGameField.randomAddChar(tictactoe, xoroBot);
+                        newGameField.botAddPosition(tictactoe, xoroBot, xoroChar);
                         if (gameLogic.isWinGame(tictactoe)) {
                             newGameField.printField(tictactoe);
                             System.out.println("Sorry! Computer win! Computer win with '" + xoroBot + "'");
                             continue endgame;
                         }
-                    } else {
-                        newGameField.randomAddChar(tictactoe, xoroBot);
+                    } else {                                                 // Логика игры, если первым ходит компьютер
+                        newGameField.botAddPosition(tictactoe, xoroBot, xoroChar);
                         newGameField.printField(tictactoe);
                         if (gameLogic.isWinGame(tictactoe)) {
                             System.out.println("Sorry! Computer win! Computer win with '" + xoroBot + "'");
@@ -65,14 +58,7 @@ public class GameRunner {
                             System.out.println("This is Draw!");
                             continue endgame;
                         }
-                        boolean rightPosition;
-                        do {
-                            System.out.println("Row position ?");
-                            int raw = input.nextInt();
-                            System.out.println("Column position ?");
-                            int col = input.nextInt();
-                            rightPosition = newGameField.addElementField(tictactoe, raw, col, xoroChar);
-                        } while (!rightPosition);
+                        newGameField.gamerAddPosition(input, xoroChar, tictactoe);
                         if (gameLogic.isWinGame(tictactoe)) {
                             newGameField.printField(tictactoe);
                             System.out.println("Congratulation! You win! You  winning with '" + xoroChar + "'");
