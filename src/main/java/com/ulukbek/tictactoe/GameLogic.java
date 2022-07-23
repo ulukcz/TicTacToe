@@ -10,6 +10,8 @@ public class GameLogic {
     private final Scanner scanner = new Scanner(System.in);
     private final Field field = new Field();
 
+    private final Random random = new Random();
+
     public void start(){
         while (!checkWinner()) {
             getUserInput();
@@ -37,7 +39,6 @@ public class GameLogic {
     }
 
     public void generatePCInput() {
-        Random random = new Random();
         int index = random.nextInt(9);
         while (validateInput(index)) {
             index = random.nextInt(9);
